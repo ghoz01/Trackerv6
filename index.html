@@ -3,112 +3,35 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <title>GOLD VAULT - FINAL EDITION</title>
-    
+    <title>GOLD VAULT - MASTER EDITION</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
     <link href="https://fonts.cdnfonts.com/css/lemon-milk" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
-    
     <style>
         :root {
             --bg: #080808; --panel: #121212; --gold: #D4AF37; --gold-br: #F9E076;
             --text: #E0E0E0; --danger: #FF4B2B; --success: #00C851;
-            --font-l: 'LEMON MILK', sans-serif;
-            --font-m: 'Nunito', sans-serif;
+            --font-l: 'LEMON MILK', sans-serif; --font-m: 'Nunito', sans-serif;
         }
-
-        body { 
-            font-family: var(--font-m); 
-            margin: 0; 
-            background: var(--bg); 
-            color: var(--text); 
-            display: flex; 
-            justify-content: center; 
-            padding: 20px; 
-            overflow-x: hidden;
-        }
-
+        body { font-family: var(--font-m); margin: 0; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 20px; overflow-x: hidden; }
         .dashboard { width: 100%; max-width: 1100px; display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
         @media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } }
-
-        h2, h3, .label, .btn, th, .type-btn { 
-            font-family: var(--font-l); 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-        }
-
-        .card { 
-            background: var(--panel); 
-            padding: 25px; 
-            border-top: 3px solid var(--gold); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            border-radius: 4px; 
-            position: relative; 
-            transition: 0.3s; 
-        }
-
-        .card.edit-mode { 
-            border-top-color: var(--gold-br); 
-            background: #1a1a10; 
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); 
-        }
-        
-        .ticker { 
-            font-size: 11px; 
-            color: var(--gold); 
-            display: flex; 
-            gap: 15px; 
-            background: #000; 
-            padding: 10px; 
-            border-radius: 4px; 
-            border: 1px solid #222; 
-            margin-bottom: 15px; 
-        }
-
+        h2, h3, .label, .btn, th, .type-btn { font-family: var(--font-l); text-transform: uppercase; letter-spacing: 1px; }
+        .card { background: var(--panel); padding: 25px; border-top: 3px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 4px; position: relative; }
+        .card.edit-mode { border-top-color: var(--gold-br); background: #1a1a10; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .ticker { font-size: 11px; color: var(--gold); display: flex; gap: 15px; background: #000; padding: 10px; border-radius: 4px; border: 1px solid #222; margin-bottom: 15px; }
         .entry-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        input, select { 
-            background: #000; 
-            border: 1px solid #222; 
-            color: #fff; 
-            padding: 12px; 
-            border-radius: 4px; 
-            width: 100%; 
-            box-sizing: border-box; 
-            outline: none; 
-            font-family: var(--font-m);
-        }
-        input:focus { border-color: var(--gold); }
-        
+        input, select { background: #000; border: 1px solid #222; color: #fff; padding: 12px; border-radius: 4px; width: 100%; outline: none; font-family: var(--font-m); }
         .btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        .type-btn { 
-            flex: 1; padding: 12px; 
-            background: transparent; border: 1px solid #444; 
-            color: var(--gold); cursor: pointer; font-size: 11px;
-            transition: 0.2s;
-        }
+        .type-btn { flex: 1; padding: 12px; background: transparent; border: 1px solid #444; color: var(--gold); cursor: pointer; font-size: 11px; }
         .type-btn.active.in { background: var(--success); color: #fff; border-color: var(--success); }
         .type-btn.active.out { background: var(--danger); color: #fff; border-color: var(--danger); }
-
-        .btn { 
-            width: 100%; padding: 18px; 
-            background: var(--gold); color: #000; 
-            border: none; cursor: pointer; font-weight: bold; 
-            border-radius: 4px; transition: 0.3s;
-        }
-        .btn:hover { background: var(--gold-br); box-shadow: 0 0 15px var(--gold); transform: translateY(-1px); }
-
-        /* HERO SECTION */
-        .balance-hero { 
-            background: #000; padding: 30px 20px; text-align: center; 
-            border: 1px solid var(--gold); border-radius: 4px; margin-bottom: 20px; 
-        }
-        .balance-hero .val { font-family: var(--font-l); font-size: 38px; color: #fff; margin: 5px 0; }
-        .balance-hero .label { font-size: 10px; color: var(--gold); letter-spacing: 2px; }
-
-        /* STAT BOXES */
+        .btn { width: 100%; padding: 18px; background: var(--gold); color: #000; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
+        .balance-hero { background: #000; padding: 30px 20px; text-align: center; border: 1px solid var(--gold); border-radius: 4px; margin-bottom: 20px; }
+        .balance-hero .val { font-family: var(--font-l); font-size: 38px; color: #fff; margin: 5px 0; transition: color 0.5s; }
+        .balance-hero .val.warning { color: #ffff00; text-shadow: 0 0 15px rgba(255, 255, 0, 0.4); }
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .stat-box { background: var(--panel); padding: 15px; border-radius: 4px; border: 1px solid #222; text-align: center; }
         .stat-box.full { grid-column: span 2; }
@@ -116,58 +39,37 @@
         .stat-box .s-val { font-family: var(--font-m); font-size: 16px; font-weight: 600; }
         .stat-box.income .s-val { color: var(--success); }
         .stat-box.expense .s-val { color: var(--danger); }
-
         .history-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .history-table th { color: var(--gold); font-size: 10px; text-align: left; padding: 10px; border-bottom: 1px solid #333; }
         .history-table td { padding: 15px 10px; border-bottom: 1px solid #1a1a1a; font-size: 13px; cursor: pointer; }
-        .history-table tr:hover { background: #080808; }
-
         .amt-in { color: var(--success); font-weight: bold; } 
         .amt-out { color: var(--danger); font-weight: bold; }
-
         .filter-label { font-family: var(--font-l); font-size: 10px; color: var(--gold); display: block; margin-bottom: 8px; margin-top: 15px; }
-
-        .loading-overlay { 
-            position: absolute; top:0; left:0; width:100%; height:100%; 
-            background: rgba(0,0,0,0.8); display: flex; align-items: center; 
-            justify-content: center; z-index: 10; font-size: 12px; color: var(--gold); font-family: var(--font-l); 
-        }
+        .loading-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 10; font-size: 12px; color: var(--gold); font-family: var(--font-l); }
     </style>
 </head>
 <body>
-
 <div class="dashboard">
     <div class="left">
         <div class="card" id="inputCard">
-            <div id="loader" class="loading-overlay">SYNCING MARKET DATA...</div>
-            <div class="ticker">
-                <span id="usdRate">USD: -- ₺</span>
-                <span id="eurRate">EUR: -- ₺</span>
-            </div>
+            <div id="loader" class="loading-overlay">SYNCING MARKET RATES...</div>
+            <div class="ticker"><span id="usdRate">USD: -- ₺</span><span id="eurRate">EUR: -- ₺</span></div>
             <h2 id="formTitle">NEW ENTRY</h2>
             <div class="entry-grid">
                 <input type="date" id="dateInput">
                 <input type="number" id="amtInput" placeholder="0.00" step="0.01">
-                <select id="curInput">
-                    <option value="₺">₺ TRY</option>
-                    <option value="$">$ USD</option>
-                    <option value="€">€ EUR</option>
-                </select>
+                <select id="curInput"><option value="₺">₺ TRY</option><option value="$">$ USD</option><option value="€">€ EUR</option></select>
             </div>
-            <input type="text" id="noteInput" placeholder="DESCRIPTION / NOTES..." style="margin-bottom:15px; width:100%; padding:12px; background:#000; border:1px solid #222; color:#fff; border-radius:4px; box-sizing:border-box; outline:none;">
-            
+            <input type="text" id="noteInput" placeholder="DESCRIPTION..." style="margin-bottom:15px; width:100%; padding:12px; background:#000; border:1px solid #222; color:#fff; border-radius:4px; box-sizing:border-box;">
             <div class="btn-group">
                 <button id="inBtn" class="type-btn active in" onclick="setType('in')">INCOME (+)</button>
                 <button id="outBtn" class="type-btn out" onclick="setType('out')">EXPENSE (-)</button>
             </div>
-            
-            <button class="btn" id="saveBtn" onclick="processEntry()">SAVE TO VAULT</button>
-            <button class="btn" id="cancelBtn" style="display:none; background:#333; color:#fff; margin-top:10px;" onclick="resetForm()">CANCEL EDITING</button>
+            <button class="btn" id="saveBtn" onclick="processEntry()">SAVE TRANSACTION</button>
+            <button class="btn" id="cancelBtn" style="display:none; background:#333; color:#fff; margin-top:10px;" onclick="resetForm()">CANCEL EDIT</button>
         </div>
-
         <div class="card" style="margin-top: 20px;">
             <h3>TRANSACTION JOURNAL</h3>
-            <p style="font-size: 10px; color: #555; margin-bottom: 10px;">TIP: CLICK A ROW TO EDIT PROPERTIES</p>
             <div style="overflow-x: auto;">
                 <table class="history-table">
                     <thead><tr><th>DATE</th><th>NOTE</th><th>ORIGINAL</th><th>IN TRY</th><th></th></tr></thead>
@@ -176,52 +78,35 @@
             </div>
         </div>
     </div>
-
     <div class="right">
         <div class="balance-hero">
-            <span class="label">NET PORTFOLIO VALUE</span>
+            <span class="label">NET ASSETS</span>
             <div class="val" id="totalValue">0.00</div>
-            <span class="label">TURKISH LIRA (₺)</span>
+            <span class="label" id="backupStatus">TURKISH LIRA (₺)</span>
         </div>
-
         <div class="stats-grid">
-            <div class="stat-box income">
-                <span class="s-label">TOTAL INCOME (+)</span>
-                <span class="s-val" id="totalIncome">0₺</span>
-            </div>
-            <div class="stat-box expense">
-                <span class="s-label">TOTAL EXPENSE (-)</span>
-                <span class="s-val" id="totalExpense">0₺</span>
-            </div>
-            <div class="stat-box full">
-                <span class="s-label">TOTAL TRANSACTIONS</span>
-                <span class="s-val" id="totalCount" style="color: var(--gold);">0</span>
-            </div>
+            <div class="stat-box income"><span class="s-label">TOTAL INCOME</span><span class="s-val" id="totalIncome">0₺</span></div>
+            <div class="stat-box expense"><span class="s-label">TOTAL EXPENSE</span><span class="s-val" id="totalExpense">0₺</span></div>
+            <div class="stat-box full"><span class="s-label">TOTAL TRANSACTIONS</span><span class="s-val" id="totalCount" style="color: var(--gold);">0</span></div>
         </div>
-
         <div class="card">
-            <h3>FILTERS & EXPORT</h3>
-            
-            <span class="filter-label">SEARCH JOURNAL</span>
-            <input type="search" id="search" placeholder="Keyword..." oninput="render()" style="margin-bottom:15px; width:100%; padding:12px; background:#000; border:1px solid #222; color:#fff; border-radius:4px; box-sizing:border-box; outline:none;">
-            
+            <h3>SYNC & FILTERS</h3>
+            <button class="btn" style="background:#1a1a1a; color:var(--gold); border:1px solid var(--gold); margin-bottom:10px;" onclick="exportCSV()">BACKUP (DOWNLOAD CSV)</button>
+            <button class="btn" style="background:#1a1a1a; color:var(--gold); border:1px solid var(--gold); margin-bottom:15px;" onclick="document.getElementById('importFile').click()">RESTORE (IMPORT CSV)</button>
+            <input type="file" id="importFile" style="display:none" accept=".csv" onchange="importCSV(this)">
+            <span class="filter-label">SEARCH</span>
+            <input type="search" id="search" placeholder="Keyword..." oninput="render()" style="width:100%; padding:12px; background:#000; border:1px solid #222; color:#fff; border-radius:4px; outline:none; margin-bottom:15px;">
             <span class="filter-label">DATE RANGE</span>
-            <div style="display:flex; gap:5px; margin-bottom:15px;">
-                <input type="date" id="filterFrom" onchange="render()" style="flex:1; font-size:11px; padding:10px; background:#000; border:1px solid #222; color:#fff; border-radius:4px; outline:none;">
-                <input type="date" id="filterTo" onchange="render()" style="flex:1; font-size:11px; padding:10px; background:#000; border:1px solid #222; color:#fff; border-radius:4px; outline:none;">
-            </div>
-            
-            <button class="btn" style="background:#1a1a1a; color:var(--gold); border:1px solid var(--gold);" onclick="exportCSV()">DOWNLOAD EXCEL (CSV)</button>
+            <div style="display:flex; gap:5px;"><input type="date" id="filterFrom" onchange="render()" style="font-size:11px;"><input type="date" id="filterTo" onchange="render()" style="font-size:11px;"></div>
         </div>
     </div>
 </div>
-
 <script>
     let records = JSON.parse(localStorage.getItem('gold_vault_v2')) || [];
+    let lastBackup = localStorage.getItem('gold_vault_backup_date') || 0;
+    let rates = { usd: 43.47, eur: 51.26 };
     let currentType = 'in';
     let editId = null;
-    let filteredRecords = [];
-    let rates = { usd: 43.47, eur: 51.26 };
 
     async function fetchRates() {
         try {
@@ -233,148 +118,91 @@
             document.getElementById('eurRate').textContent = `EUR: ${rates.eur} ₺`;
             document.getElementById('loader').style.display = 'none';
             render();
-        } catch (e) {
-            document.getElementById('loader').textContent = "OFFLINE MODE - USING CACHE";
-            setTimeout(() => document.getElementById('loader').style.display='none', 1500);
-            render();
-        }
-    }
-
-    function setType(t) {
-        currentType = t;
-        document.getElementById('inBtn').classList.toggle('active', t === 'in');
-        document.getElementById('outBtn').classList.toggle('active', t === 'out');
+        } catch (e) { document.getElementById('loader').style.display='none'; render(); }
     }
 
     function processEntry() {
         const amt = parseFloat(document.getElementById('amtInput').value);
-        if (!amt) return alert("ENTER A VALID AMOUNT");
-        
+        if (!amt) return;
         const note = document.getElementById('noteInput').value || "VAULT";
         const date = document.getElementById('dateInput').value;
         const cur = document.getElementById('curInput').value;
         const rateToUse = cur === '$' ? rates.usd : (cur === '€' ? rates.eur : 1);
-
         if (editId) {
             const idx = records.findIndex(r => r.id === editId);
             records[idx] = { ...records[idx], amt, note, date, cur, type: currentType, rateAtTime: rateToUse };
             editId = null;
-        } else {
-            records.unshift({ id: Date.now(), date, note, amt, cur, type: currentType, rateAtTime: rateToUse });
-        }
-        saveAndRefresh();
-        resetForm();
-    }
-
-    function editRecord(id) {
-        const r = records.find(item => item.id === id);
-        if (!r) return;
-        editId = id;
-        document.getElementById('amtInput').value = r.amt;
-        document.getElementById('noteInput').value = r.note;
-        document.getElementById('dateInput').value = r.date;
-        document.getElementById('curInput').value = r.cur;
-        setType(r.type);
-
-        document.getElementById('formTitle').textContent = "EDITING RECORD";
-        document.getElementById('saveBtn').textContent = "UPDATE VAULT";
-        document.getElementById('cancelBtn').style.display = "block";
-        document.getElementById('inputCard').classList.add('edit-mode');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function deleteRecord(id, e) {
-        e.stopPropagation();
-        if(confirm("PERMANENTLY DELETE THIS ENTRY?")) {
-            records = records.filter(r => r.id !== id);
-            saveAndRefresh();
-        }
-    }
-
-    function saveAndRefresh() {
-        localStorage.setItem('gold_vault_v2', JSON.stringify(records));
-        render();
-    }
-
-    function resetForm() {
-        editId = null;
-        document.getElementById('amtInput').value = '';
-        document.getElementById('noteInput').value = '';
-        document.getElementById('dateInput').valueAsDate = new Date();
-        document.getElementById('formTitle').textContent = "NEW ENTRY";
-        document.getElementById('saveBtn').textContent = "SAVE TO VAULT";
-        document.getElementById('cancelBtn').style.display = "none";
-        document.getElementById('inputCard').classList.remove('edit-mode');
-        setType('in');
+        } else { records.unshift({ id: Date.now(), date, note, amt, cur, type: currentType, rateAtTime: rateToUse }); }
+        saveAndRefresh(); resetForm();
     }
 
     function render() {
         const body = document.getElementById('historyBody');
-        const search = document.getElementById('search').value.toLowerCase();
-        const fromDate = document.getElementById('filterFrom').value;
-        const toDate = document.getElementById('filterTo').value;
+        const query = document.getElementById('search').value.toLowerCase();
+        const fFrom = document.getElementById('filterFrom').value;
+        const fTo = document.getElementById('filterTo').value;
+        let net = 0, inc = 0, exp = 0; body.innerHTML = '';
         
-        // Stats trackers
-        let netTotal = 0;
-        let incomeTotal = 0;
-        let expenseTotal = 0;
-        
-        body.innerHTML = '';
+        // Backup Logic
+        const daysSinceBackup = (Date.now() - lastBackup) / (1000 * 60 * 60 * 24);
+        const valEl = document.getElementById('totalValue');
+        if (daysSinceBackup > 7) {
+            valEl.classList.add('warning');
+            document.getElementById('backupStatus').textContent = "⚠️ ATTENTION: BACKUP REQUIRED";
+        } else {
+            valEl.classList.remove('warning');
+            document.getElementById('backupStatus').textContent = "TURKISH LIRA (₺)";
+        }
 
-        filteredRecords = records.filter(r => {
-            const matchesSearch = r.note.toLowerCase().includes(search) || r.cur.toLowerCase().includes(search);
-            const matchesFrom = !fromDate || r.date >= fromDate;
-            const matchesTo = !toDate || r.date <= toDate;
-            return matchesSearch && matchesFrom && matchesTo;
+        const filtered = records.filter(r => {
+            const matchesSearch = r.note.toLowerCase().includes(query) || r.cur.toLowerCase().includes(query);
+            const matchesDate = (!fFrom || r.date >= fFrom) && (!fTo || r.date <= fTo);
+            return matchesSearch && matchesDate;
         });
 
-        filteredRecords.forEach(r => {
-            const valInTRY = r.amt * r.rateAtTime;
-            
-            // Logic for triple boxes
-            if (r.type === 'in') {
-                netTotal += valInTRY;
-                incomeTotal += valInTRY;
-            } else {
-                netTotal -= valInTRY;
-                expenseTotal += valInTRY;
-            }
-            
-            const colorClass = r.type === 'in' ? 'amt-in' : 'amt-out';
-            const prefix = r.type === 'in' ? '+' : '-';
-
-            body.innerHTML += `
-                <tr onclick="editRecord(${r.id})">
-                    <td>${r.date.split('-').reverse().join('/')}</td>
-                    <td style="color:var(--gold)">${r.note}</td>
-                    <td>${r.amt}${r.cur}</td>
-                    <td class="${colorClass}">${prefix}${valInTRY.toLocaleString('tr-TR', {minimumFractionDigits: 0})}₺</td>
-                    <td style="text-align:right" onclick="deleteRecord(${r.id}, event)">✕</td>
-                </tr>`;
+        filtered.forEach(r => {
+            const val = r.amt * r.rateAtTime;
+            if (r.type === 'in') { net += val; inc += val; } else { net -= val; exp += val; }
+            body.innerHTML += `<tr onclick="editRecord(${r.id})"><td>${r.date.split('-').reverse().join('/')}</td><td style="color:var(--gold)">${r.note}</td><td>${r.amt}${r.cur}</td><td class="${r.type === 'in' ? 'amt-in' : 'amt-out'}">${r.type==='in'?'+':'-'}${val.toLocaleString('tr-TR', {minimumFractionDigits: 0})}₺</td><td onclick="deleteRecord(${r.id}, event)">✕</td></tr>`;
         });
-
-        // UPDATE ALL INTERFACE BOXES
-        document.getElementById('totalValue').textContent = netTotal.toLocaleString('tr-TR', {minimumFractionDigits: 2});
-        document.getElementById('totalIncome').textContent = incomeTotal.toLocaleString('tr-TR', {minimumFractionDigits: 0}) + "₺";
-        document.getElementById('totalExpense').textContent = expenseTotal.toLocaleString('tr-TR', {minimumFractionDigits: 0}) + "₺";
-        document.getElementById('totalCount').textContent = filteredRecords.length;
+        document.getElementById('totalValue').textContent = net.toLocaleString('tr-TR', {minimumFractionDigits: 2});
+        document.getElementById('totalIncome').textContent = inc.toLocaleString('tr-TR', {minimumFractionDigits: 0}) + "₺";
+        document.getElementById('totalExpense').textContent = exp.toLocaleString('tr-TR', {minimumFractionDigits: 0}) + "₺";
+        document.getElementById('totalCount').textContent = filtered.length;
     }
 
     function exportCSV() {
-        if (filteredRecords.length === 0) return alert("NO DATA FOUND TO EXPORT");
-        let csv = "Date,Note,Currency,Original_Amount,TRY_Value,Type\n";
-        filteredRecords.forEach(r => { 
-            const tryVal = (r.amt * r.rateAtTime).toFixed(2);
-            csv += `${r.date},"${r.note.replace(/"/g, '""')}",${r.cur},${r.amt},${tryVal},${r.type}\n`; 
-        });
+        let csv = "Date,Note,Currency,Amount,TRY_Value,Type\n";
+        records.forEach(r => { csv += `${r.date},"${r.note.replace(/"/g, '""')}",${r.cur},${r.amt},${(r.amt * r.rateAtTime).toFixed(2)},${r.type}\n`; });
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `GoldVault_Export_${new Date().toISOString().split('T')[0]}.csv`;
-        a.click();
+        const a = document.createElement('a'); a.href = url; a.download = `GoldVault_Backup.csv`; a.click();
+        lastBackup = Date.now(); localStorage.setItem('gold_vault_backup_date', lastBackup); render();
     }
 
+    function importCSV(input) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const lines = e.target.result.split('\n');
+            const imported = [];
+            for(let i = 1; i < lines.length; i++) {
+                const col = lines[i].split(',');
+                if(col.length < 6) continue;
+                const amt = parseFloat(col[3]);
+                const tryVal = parseFloat(col[4]);
+                imported.push({ date: col[0], note: col[1].replace(/"/g, ''), cur: col[2], amt: amt, rateAtTime: tryVal/amt, type: col[5].trim().toLowerCase(), id: Date.now()+i });
+            }
+            if(confirm("REPLACE LOCAL DATA WITH " + imported.length + " ITEMS?")) { records = imported; saveAndRefresh(); }
+        };
+        reader.readAsText(input.files[0]);
+    }
+
+    function setType(t) { currentType = t; document.getElementById('inBtn').classList.toggle('active', t === 'in'); document.getElementById('outBtn').classList.toggle('active', t === 'out'); }
+    function saveAndRefresh() { localStorage.setItem('gold_vault_v2', JSON.stringify(records)); render(); }
+    function editRecord(id) { const r = records.find(i => i.id === id); editId = id; document.getElementById('amtInput').value = r.amt; document.getElementById('noteInput').value = r.note; document.getElementById('dateInput').value = r.date; document.getElementById('curInput').value = r.cur; setType(r.type); document.getElementById('formTitle').textContent = "EDIT ENTRY"; document.getElementById('saveBtn').textContent = "UPDATE"; document.getElementById('cancelBtn').style.display = "block"; document.getElementById('inputCard').classList.add('edit-mode'); }
+    function deleteRecord(id, e) { e.stopPropagation(); if(confirm("DELETE?")) { records = records.filter(r => r.id !== id); saveAndRefresh(); } }
+    function resetForm() { editId = null; document.getElementById('amtInput').value = ''; document.getElementById('noteInput').value = ''; document.getElementById('formTitle').textContent = "NEW ENTRY"; document.getElementById('saveBtn').textContent = "SAVE TRANSACTION"; document.getElementById('cancelBtn').style.display = "none"; document.getElementById('inputCard').classList.remove('edit-mode'); setType('in'); }
+    
     document.getElementById('dateInput').valueAsDate = new Date();
     fetchRates();
 </script>
