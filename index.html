@@ -34,7 +34,6 @@
         .dashboard { width: 100%; max-width: 1100px; display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
         @media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } }
 
-        /* Headlines and UI Elements */
         h2, h3, .label, .btn, th, .type-btn { 
             font-family: var(--font-l); 
             text-transform: uppercase; 
@@ -51,14 +50,12 @@
             transition: 0.3s; 
         }
 
-        /* Edit Mode Visual Indicator */
         .card.edit-mode { 
             border-top-color: var(--gold-br); 
             background: #1a1a10; 
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); 
         }
         
-        /* Live Rates Ticker */
         .ticker { 
             font-size: 11px; 
             color: var(--gold); 
@@ -71,7 +68,6 @@
             margin-bottom: 15px; 
         }
 
-        /* Form Inputs */
         .entry-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         input, select { 
             background: #000; 
@@ -104,25 +100,31 @@
         }
         .btn:hover { background: var(--gold-br); box-shadow: 0 0 15px var(--gold); transform: translateY(-1px); }
 
-        /* Main Display Section */
+        /* HERO SECTION */
         .balance-hero { 
-            background: #000; padding: 40px 20px; text-align: center; 
+            background: #000; padding: 30px 20px; text-align: center; 
             border: 1px solid var(--gold); border-radius: 4px; margin-bottom: 20px; 
         }
-        .balance-hero .val { font-family: var(--font-l); font-size: 38px; color: #fff; margin: 10px 0; }
+        .balance-hero .val { font-family: var(--font-l); font-size: 38px; color: #fff; margin: 5px 0; }
         .balance-hero .label { font-size: 10px; color: var(--gold); letter-spacing: 2px; }
 
-        /* History Table */
+        /* TRIPLE STAT BOXES */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-box { background: var(--panel); padding: 15px; border-radius: 4px; border: 1px solid #222; text-align: center; }
+        .stat-box.full { grid-column: span 2; }
+        .stat-box .s-label { font-family: var(--font-l); font-size: 9px; color: var(--gold); opacity: 0.8; margin-bottom: 5px; display: block; }
+        .stat-box .s-val { font-family: var(--font-m); font-size: 16px; font-weight: 600; }
+        .stat-box.income .s-val { color: var(--success); }
+        .stat-box.expense .s-val { color: var(--danger); }
+
         .history-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .history-table th { color: var(--gold); font-size: 10px; text-align: left; padding: 10px; border-bottom: 1px solid #333; }
         .history-table td { padding: 15px 10px; border-bottom: 1px solid #1a1a1a; font-size: 13px; cursor: pointer; }
         .history-table tr:hover { background: #080808; }
 
-        /* Dynamic Amount Colors */
         .amt-in { color: var(--success); font-weight: bold; } 
         .amt-out { color: var(--danger); font-weight: bold; }
 
-        /* Filters */
         .filter-label { font-family: var(--font-l); font-size: 10px; color: var(--gold); display: block; margin-bottom: 8px; margin-top: 15px; }
 
         .loading-overlay { 
@@ -177,9 +179,24 @@
 
     <div class="right">
         <div class="balance-hero">
-            <span class="label">NET PORTFOLIO VALUE</span>
+            <span class="label">NET ASSETS</span>
             <div class="val" id="totalValue">0.00</div>
             <span class="label">TURKISH LIRA (₺)</span>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box income">
+                <span class="s-label">TOTAL INCOME</span>
+                <span class="s-val" id="totalIncome">0₺</span>
+            </div>
+            <div class="stat-box expense">
+                <span class="s-label">TOTAL EXPENSE</span>
+                <span class="s-val" id="totalExpense">0₺</span>
+            </div>
+            <div class="stat-box full">
+                <span class="s-label">TOTAL TRANSACTIONS</span>
+                <span class="s-val" id="totalCount" style="color: var(--gold);">0</span>
+            </div>
         </div>
 
         <div class="card">
@@ -200,21 +217,16 @@
 </div>
 
 <script>
-    // DATA PERSISTENCE
     let records = JSON.parse(localStorage.getItem('gold_vault_v2')) || [];
     let currentType = 'in';
     let editId = null;
     let filteredRecords = [];
-    
-    // DEFAULT EXCHANGE RATES (Will update from API)
     let rates = { usd: 43.47, eur: 51.26 };
 
-    // FETCH REAL-TIME EXCHANGE RATES
     async function fetchRates() {
         try {
             const resp = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/try.json');
             const data = await resp.json();
-            // Rates are provided as 1 TRY = X Currency. We invert for 1 Currency = X TRY.
             rates.usd = (1 / data.try.usd).toFixed(2);
             rates.eur = (1 / data.try.eur).toFixed(2);
             document.getElementById('usdRate').textContent = `USD: ${rates.usd} ₺`;
@@ -228,14 +240,12 @@
         }
     }
 
-    // TOGGLE INCOME / EXPENSE
     function setType(t) {
         currentType = t;
         document.getElementById('inBtn').classList.toggle('active', t === 'in');
         document.getElementById('outBtn').classList.toggle('active', t === 'out');
     }
 
-    // PROCESS SAVE OR UPDATE
     function processEntry() {
         const amt = parseFloat(document.getElementById('amtInput').value);
         if (!amt) return alert("ENTER A VALID AMOUNT");
@@ -246,20 +256,16 @@
         const rateToUse = cur === '$' ? rates.usd : (cur === '€' ? rates.eur : 1);
 
         if (editId) {
-            // Update Existing Record
             const idx = records.findIndex(r => r.id === editId);
             records[idx] = { ...records[idx], amt, note, date, cur, type: currentType, rateAtTime: rateToUse };
             editId = null;
         } else {
-            // Create New Record
             records.unshift({ id: Date.now(), date, note, amt, cur, type: currentType, rateAtTime: rateToUse });
         }
-
         saveAndRefresh();
         resetForm();
     }
 
-    // LOAD RECORD INTO FORM FOR EDITING
     function editRecord(id) {
         const r = records.find(item => item.id === id);
         if (!r) return;
@@ -269,7 +275,6 @@
         document.getElementById('dateInput').value = r.date;
         document.getElementById('curInput').value = r.cur;
         setType(r.type);
-
         document.getElementById('formTitle').textContent = "EDITING RECORD";
         document.getElementById('saveBtn').textContent = "UPDATE VAULT";
         document.getElementById('cancelBtn').style.display = "block";
@@ -277,7 +282,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // DELETE RECORD
     function deleteRecord(id, e) {
         e.stopPropagation();
         if(confirm("PERMANENTLY DELETE THIS ENTRY?")) {
@@ -286,13 +290,11 @@
         }
     }
 
-    // DATA STORAGE SYNC
     function saveAndRefresh() {
         localStorage.setItem('gold_vault_v2', JSON.stringify(records));
         render();
     }
 
-    // RESET FORM TO DEFAULT
     function resetForm() {
         editId = null;
         document.getElementById('amtInput').value = '';
@@ -305,16 +307,18 @@
         setType('in');
     }
 
-    // MAIN UI RENDERING ENGINE
     function render() {
         const body = document.getElementById('historyBody');
         const search = document.getElementById('search').value.toLowerCase();
         const fromDate = document.getElementById('filterFrom').value;
         const toDate = document.getElementById('filterTo').value;
-        let totalTRY = 0; 
+        
+        let netTotal = 0;
+        let incomeTotal = 0;
+        let expenseTotal = 0;
+        
         body.innerHTML = '';
 
-        // Apply Search and Date Filters
         filteredRecords = records.filter(r => {
             const matchesSearch = r.note.toLowerCase().includes(search) || r.cur.toLowerCase().includes(search);
             const matchesFrom = !fromDate || r.date >= fromDate;
@@ -324,7 +328,13 @@
 
         filteredRecords.forEach(r => {
             const valInTRY = r.amt * r.rateAtTime;
-            if (r.type === 'in') totalTRY += valInTRY; else totalTRY -= valInTRY;
+            if (r.type === 'in') {
+                netTotal += valInTRY;
+                incomeTotal += valInTRY;
+            } else {
+                netTotal -= valInTRY;
+                expenseTotal += valInTRY;
+            }
             
             const colorClass = r.type === 'in' ? 'amt-in' : 'amt-out';
             const prefix = r.type === 'in' ? '+' : '-';
@@ -339,10 +349,13 @@
                 </tr>`;
         });
 
-        document.getElementById('totalValue').textContent = totalTRY.toLocaleString('tr-TR', {minimumFractionDigits: 2});
+        // Update Boxes
+        document.getElementById('totalValue').textContent = netTotal.toLocaleString('tr-TR', {minimumFractionDigits: 2});
+        document.getElementById('totalIncome').textContent = incomeTotal.toLocaleString('tr-TR', {minimumFractionDigits: 0}) + "₺";
+        document.getElementById('totalExpense').textContent = expenseTotal.toLocaleString('tr-TR', {minimumFractionDigits: 0}) + "₺";
+        document.getElementById('totalCount').textContent = filteredRecords.length;
     }
 
-    // CSV DATA EXPORT (EXCEL COMPATIBLE)
     function exportCSV() {
         if (filteredRecords.length === 0) return alert("NO DATA FOUND TO EXPORT");
         let csv = "Date,Note,Currency,Original_Amount,TRY_Value,Type\n";
@@ -358,7 +371,6 @@
         a.click();
     }
 
-    // INITIALIZATION
     document.getElementById('dateInput').valueAsDate = new Date();
     fetchRates();
 </script>
