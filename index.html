@@ -108,7 +108,7 @@
         .balance-hero .val { font-family: var(--font-l); font-size: 38px; color: #fff; margin: 5px 0; }
         .balance-hero .label { font-size: 10px; color: var(--gold); letter-spacing: 2px; }
 
-        /* TRIPLE STAT BOXES */
+        /* STAT BOXES */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .stat-box { background: var(--panel); padding: 15px; border-radius: 4px; border: 1px solid #222; text-align: center; }
         .stat-box.full { grid-column: span 2; }
@@ -179,18 +179,18 @@
 
     <div class="right">
         <div class="balance-hero">
-            <span class="label">NET ASSETS</span>
+            <span class="label">NET PORTFOLIO VALUE</span>
             <div class="val" id="totalValue">0.00</div>
             <span class="label">TURKISH LIRA (₺)</span>
         </div>
 
         <div class="stats-grid">
             <div class="stat-box income">
-                <span class="s-label">TOTAL INCOME</span>
+                <span class="s-label">TOTAL INCOME (+)</span>
                 <span class="s-val" id="totalIncome">0₺</span>
             </div>
             <div class="stat-box expense">
-                <span class="s-label">TOTAL EXPENSE</span>
+                <span class="s-label">TOTAL EXPENSE (-)</span>
                 <span class="s-val" id="totalExpense">0₺</span>
             </div>
             <div class="stat-box full">
@@ -275,6 +275,7 @@
         document.getElementById('dateInput').value = r.date;
         document.getElementById('curInput').value = r.cur;
         setType(r.type);
+
         document.getElementById('formTitle').textContent = "EDITING RECORD";
         document.getElementById('saveBtn').textContent = "UPDATE VAULT";
         document.getElementById('cancelBtn').style.display = "block";
@@ -313,6 +314,7 @@
         const fromDate = document.getElementById('filterFrom').value;
         const toDate = document.getElementById('filterTo').value;
         
+        // Stats trackers
         let netTotal = 0;
         let incomeTotal = 0;
         let expenseTotal = 0;
@@ -328,6 +330,8 @@
 
         filteredRecords.forEach(r => {
             const valInTRY = r.amt * r.rateAtTime;
+            
+            // Logic for triple boxes
             if (r.type === 'in') {
                 netTotal += valInTRY;
                 incomeTotal += valInTRY;
@@ -349,7 +353,7 @@
                 </tr>`;
         });
 
-        // Update Boxes
+        // UPDATE ALL INTERFACE BOXES
         document.getElementById('totalValue').textContent = netTotal.toLocaleString('tr-TR', {minimumFractionDigits: 2});
         document.getElementById('totalIncome').textContent = incomeTotal.toLocaleString('tr-TR', {minimumFractionDigits: 0}) + "₺";
         document.getElementById('totalExpense').textContent = expenseTotal.toLocaleString('tr-TR', {minimumFractionDigits: 0}) + "₺";
